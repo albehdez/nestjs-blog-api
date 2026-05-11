@@ -6,8 +6,7 @@ const config: PostgresConnectionOptions = {
     port: 5432,
     username: 'postgres',
     password: '1234',
-    database: 'BlogBD',
-    entities: [__dirname + '/**/*.entity.{.ts, .js}'],
+    database: 'Blog',
     synchronize: true,
 }
 
