@@ -1,3 +1,6 @@
+import { TagEntity } from './tag/tag.entity';
+import { UserEntity } from './user/user.entity';
+import { DataSource } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions"
 
 const config: PostgresConnectionOptions = {
@@ -7,7 +10,13 @@ const config: PostgresConnectionOptions = {
     username: 'postgres',
     password: '1234',
     database: 'Blog',
-    synchronize: true,
+    migrationsTableName: 'migrations',
+    migrations: [__dirname + `/migrations/**/*.ts`],
+    entities: [TagEntity, UserEntity],
 }
+
+const AppDataSource = new DataSource(config);
+
+export { AppDataSource };
 
 export default config;
