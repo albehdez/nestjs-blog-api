@@ -1,11 +1,11 @@
 import { UserEntity } from "./user.entity";
-import { CreateUserDto } from "@/user/dto/createUser.dto";
+import { CreateUserDto } from "./dto/createUser.dto";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from 'typeorm'
 import { IUserResponse } from "./types/userResponse.interface";
 import { sign, verify } from 'jsonwebtoken'
-import { loginDto } from "@/user/dto/loginUser.dto";
+import { loginDto } from "./dto/loginUser.dto";
 import { compare } from 'bcrypt';
 @Injectable()
 export class UserService {
@@ -52,11 +52,21 @@ export class UserService {
         }
  
         delete user.password
-        
-        console.log(user);
-        console.log("!!!!!!!!!!!!!!!!!!");
-        
-        
+
+        return user;
+    }
+
+    async findById(id: number): Promise<UserEntity> {
+        const user = await this.userRepository.findOne({
+            where: {
+                id,
+            }
+        })
+
+        if (!user) {
+            throw new HttpException('if not found in user', HttpStatus.NOT_FOUND)
+        }
+
         return user;
     }
 
